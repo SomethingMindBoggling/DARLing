@@ -2,6 +2,7 @@ require('dotenv').config();
 
 import { CompoundSet } from '../models/compound-set';
 const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 const dbUser = process.env.DB_USER;
 const dbPass = process.env.DB_PASS;
 import { Observable } from 'rxjs/Observable';
@@ -45,5 +46,18 @@ export class CompoundsService {
     const compoundSet = new CompoundSet();
     compoundSet.owner = owner;
     compoundSet.name = name;
+
+    return new Promise((resolve, reject) => {
+      this.buildCompounds(dataset).subscribe(compounds => {
+        compoundSet.compounds = compounds;
+        compoundSet.save(err => {
+          if (err) {
+            reject(err);
+            return
+          }
+          resolve();
+        });
+      });
+    })
   }
 }

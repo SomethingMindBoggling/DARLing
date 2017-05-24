@@ -1,5 +1,8 @@
-import { should } from 'chai';
-should();
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+
+chai.use(chaiAsPromised);
+chai.should();
 
 import { CompoundsService } from '../../src/services/compounds.service';
 import { PubChemService } from '../../src/services/pubchem.service';
@@ -22,5 +25,16 @@ describe('Compounds Service', () => {
       completeDataset[0].should.have.ownProperty('pubchemAssayCount');
       completeDataset[0].should.have.ownProperty('pubchemPathwayCount');
     }, null, () => done());
+  });
+
+  it('Should resolve. (THIS IS A BAD TEST. SHOULD DUMMY MONGODB)', (done) => {
+    const dataset = [
+      {
+        CAS: '471-84-1',
+        IUPAC: 'alpha-fenchene',
+      },
+    ];
+
+    compoundsService.create('test', 'jacob', dataset).should.eventually.be.undefined.notify(done);
   });
 });
