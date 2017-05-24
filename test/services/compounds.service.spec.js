@@ -16,6 +16,7 @@ describe('Compounds Service', () => {
     ];
 
     compoundsService.buildCompounds(dataset).subscribe(completeDataset => {
+      completeDataset.length.should.equal(1);
       completeDataset[0].should.have.ownProperty('CAS');
       completeDataset[0].should.have.ownProperty('CIDs');
       completeDataset[0].should.have.ownProperty('pubchemAssayCount');
