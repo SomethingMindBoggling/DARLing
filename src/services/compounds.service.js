@@ -56,4 +56,6 @@ export class CompoundsService {
       });
     });
   }
+
+  get = CompoundSet.findById.bind(CompoundSet);
 }

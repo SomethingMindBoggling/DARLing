@@ -37,4 +37,8 @@ describe('Compounds Service', () => {
 
     compoundsService.create('test', 'jacob', dataset).should.eventually.be.undefined.notify(done);
   });
+
+  it('Should resolve with a single compound set. (BAD TEST. DUMMY MONGODB)', (done) => {
+    compoundsService.get('59260708834f0d4873f127fa').should.eventually.notify(done);
+  });
 });
