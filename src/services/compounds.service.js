@@ -7,12 +7,8 @@ const dbUser = process.env.DB_USER;
 const dbPass = process.env.DB_PASS;
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/reduce';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/mergeAll';
 
 export class CompoundsService {
   constructor(pubChemService) {
@@ -53,11 +49,11 @@ export class CompoundsService {
         compoundSet.save(err => {
           if (err) {
             reject(err);
-            return
+            return;
           }
           resolve();
         });
       });
-    })
+    });
   }
 }
