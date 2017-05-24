@@ -1,3 +1,8 @@
+import { CompoundsService } from './services/compounds.service';
+import { PubChemService } from './services/pubchem.service';
+
+const compoundService = new CompoundsService(new PubChemService());
+
 // Grab env variables
 require('dotenv').config();
 
@@ -20,9 +25,14 @@ app.get('compounds/:id', (req, res) => {
   // [{id, CAS, CID, IUPAC, pubchem_assay_count, pubchem_pathway_count...},...]
 });
 
-app.post('compounds', (req, res) => {
+app.post('/compounds', (req, res) => {
   // Create a new dataset
   // Post data: {name, owner, dataset: [{CAS, IUPAC}]
+  const dataset = JSON.parse(req.body.dataset);
+
+  compoundService.create(req.body.name, req.body.owner, dataset)
+    .then(() => res.json({ message: 'Compounds set created!' }))
+    .catch(res.send);
 });
 
 const port = process.env.PORT || 3000;
