@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const email = process.env.EMAIL;
 const fetch = require('node-fetch');
 import { Observable } from 'rxjs/Observable';
