@@ -6,6 +6,8 @@ const compoundService = new CompoundsService(new PubChemService(), new QueueServ
 
 // Grab env variables
 require('dotenv').config();
+const dbUser = process.env.DB_USER;
+const dbPass = process.env.DB_PASS;
 
 const express = require('express');
 const app = express();
@@ -13,6 +15,17 @@ const bodyParser = require('body-parser');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
+// Agenda dashboard
+const Agenda = require('agenda');
+const agendash = require('agendash');
+
+const agenda = new Agenda({ db: {
+  address: `mongodb://${dbUser}:${dbPass}@ds151651.mlab.com:51651/dar-tool`,
+  collection: 'agendaJobs',
+} });
+app.use('/agendash', agendash(agenda));
 
 // API ROUTES
 // ==========
