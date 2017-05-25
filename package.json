@@ -27,8 +27,13 @@
     "body-parser": "^1.17.2",
     "chai-as-promised": "^6.0.0",
     "express": "^4.15.3",
+    "express-jwt": "^5.3.0",
+    "jwks-rsa": "^1.1.1",
     "mongorito": "^3.0.1",
     "node-fetch": "^1.7.0",
+    "oauth2orize": "^1.8.0",
+    "passport": "^0.3.2",
+    "passport-http-bearer": "^1.0.1",
     "rxjs": "^5.4.0"
   },
   "devDependencies": {

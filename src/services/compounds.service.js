@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 import { CompoundSet } from '../models/compound-set';
-import { Database, ObjectId }  from 'mongorito';
+import { Database, ObjectId } from 'mongorito';
 
 const dbUser = process.env.DB_USER;
 const dbPass = process.env.DB_PASS;
@@ -42,9 +42,8 @@ export class CompoundsService {
       }, []);
   }
 
-  create(name, owner, dataset) {
+  create(name, dataset) {
     const compoundSet = new CompoundSet({
-      owner,
       name,
     });
     return this.buildCompounds(dataset)

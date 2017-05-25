@@ -38,7 +38,7 @@ app.post('/compounds', (req, res) => {
   // Post data: {name, owner, dataset: [{CAS, IUPAC}]
   const dataset = JSON.parse(req.body.dataset);
 
-  compoundService.create(req.body.name, req.body.owner, dataset)
+  compoundService.create(req.body.name, dataset)
     .then(() => res.json({ message: 'Compounds set created!' }))
     .catch(err => res.send(err));
 });
