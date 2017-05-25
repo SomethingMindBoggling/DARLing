@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 import { CompoundSet } from '../models/compound-set';
-import { Database }  from 'mongorito';
+import { Database, ObjectId }  from 'mongorito';
 
 const dbUser = process.env.DB_USER;
 const dbPass = process.env.DB_PASS;
@@ -56,7 +56,7 @@ export class CompoundsService {
   }
 
   get(id) {
-    return CompoundSet.find({ _id: id }).find()[0];
+    return CompoundSet.findOne({ _id: new ObjectId(id) });
   }
 
   getAll(limit = 10, skip = 0) {

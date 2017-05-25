@@ -15,14 +15,17 @@ app.use(bodyParser.json());
 
 // API ROUTES
 // ==========
-app.get('compounds', (req, res) => {
+app.get('/compounds', (req, res) => {
   // Return a list of all compound datasets in the database
   // [{id, name, owner},...]
 });
 
-app.get('compounds/:id', (req, res) => {
+app.get('/compounds/:id', (req, res) => {
   // Return a list of the details for each compound in the dataset
   // [{id, CAS, CID, IUPAC, pubchem_assay_count, pubchem_pathway_count...},...]
+  compoundService.get(req.params.id)
+    .then(compounds => res.json(compounds))
+    .catch(err => res.send(err));
 });
 
 app.post('/compounds', (req, res) => {
