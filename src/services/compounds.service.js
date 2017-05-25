@@ -1,19 +1,23 @@
 require('dotenv').config();
 
 import { CompoundSet } from '../models/compound-set';
-const mongoose = require('mongoose');
-mongoose.Promise = require('bluebird');
+import { Database }  from 'mongorito';
+
 const dbUser = process.env.DB_USER;
 const dbPass = process.env.DB_PASS;
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/reduce';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/do';
 
 export class CompoundsService {
   constructor(pubChemService) {
     this.pubChemService = pubChemService;
-    mongoose.connect(`mongodb://${dbUser}:${dbPass}@ds151651.mlab.com:51651/dar-tool`);
+    const db = new Database(`mongodb://${dbUser}:${dbPass}@ds151651.mlab.com:51651/dar-tool`);
+    db.register(CompoundSet);
+    db.connect();
   }
 
   buildCompounds(dataset) {
@@ -39,23 +43,23 @@ export class CompoundsService {
   }
 
   create(name, owner, dataset) {
-    const compoundSet = new CompoundSet();
-    compoundSet.owner = owner;
-    compoundSet.name = name;
-
-    return new Promise((resolve, reject) => {
-      this.buildCompounds(dataset).subscribe(compounds => {
-        compoundSet.compounds = compounds;
-        compoundSet.save(err => {
-          if (err) {
-            reject(err);
-            return;
-          }
-          resolve();
-        });
-      });
+    const compoundSet = new CompoundSet({
+      owner,
+      name,
     });
+    return this.buildCompounds(dataset)
+      .switchMap(compounds => {
+        compoundSet.set('compounds', compounds);
+        return Observable.fromPromise(compoundSet.save());
+      })
+      .toPromise();
   }
 
-  get = CompoundSet.findById.bind(CompoundSet);
+  get(id) {
+    return CompoundSet.find({ _id: id }).find()[0];
+  }
+
+  getAll(limit = 10, skip = 0) {
+    return CompoundSet.limit(limit).skip(skip).all();
+  }
 }

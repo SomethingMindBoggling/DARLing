@@ -32,7 +32,7 @@ app.post('/compounds', (req, res) => {
 
   compoundService.create(req.body.name, req.body.owner, dataset)
     .then(() => res.json({ message: 'Compounds set created!' }))
-    .catch(res.send);
+    .catch(err => res.send(err));
 });
 
 const port = process.env.PORT || 3000;
