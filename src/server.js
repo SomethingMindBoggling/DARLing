@@ -53,7 +53,7 @@ app.post('/compounds', (req, res) => {
   const dataset = JSON.parse(req.body.dataset);
 
   compoundService.create(req.body.name, dataset)
-    .then(() => res.json({ message: 'Compounds set created!' }))
+    .then(msg => res.json({ message: msg }))
     .catch(err => res.send(err));
 });
 
