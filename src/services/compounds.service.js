@@ -57,7 +57,7 @@ export class CompoundsService {
 
   create(name, dataset) {
     this.queueService.addJob('countCompoundsSet', (job, done) => {
-      this.countAndSave(name, dataset).then(done).catch(done);
+      this.countAndSave(name, dataset).then(() => done()).catch(err => done(err));
     });
     return new Promise(resolve =>
       resolve('Your compounds set has been added to the queue and will be processed shortly.'));
