@@ -59,7 +59,7 @@ export class CompoundsService {
     return CompoundSet.findOne({ _id: new ObjectId(id) });
   }
 
-  getAll(limit = 10, skip = 0) {
-    return CompoundSet.limit(limit).skip(skip).all();
+  getAll(skip = 0, limit = 10) {
+    return CompoundSet.limit(limit).skip(skip).find();
   }
 }

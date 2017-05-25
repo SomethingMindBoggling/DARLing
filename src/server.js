@@ -18,6 +18,11 @@ app.use(bodyParser.json());
 app.get('/compounds', (req, res) => {
   // Return a list of all compound datasets in the database
   // [{id, name, owner},...]
+  let { skip, limit } = req.query;
+  if (skip) skip = parseInt(skip, 10);
+  if (limit) limit = parseInt(limit, 10);
+  return compoundService.getAll(skip, limit)
+    .then(compoundsList => res.json(compoundsList)).catch(err => res.send(err));
 });
 
 app.get('/compounds/:id', (req, res) => {
