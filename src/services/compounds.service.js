@@ -13,8 +13,9 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/do';
 
 export class CompoundsService {
-  constructor(pubChemService) {
+  constructor(pubChemService, queueService) {
     this.pubChemService = pubChemService;
+    this.queueService = queueService;
     const db = new Database(`mongodb://${dbUser}:${dbPass}@ds151651.mlab.com:51651/dar-tool`);
     db.register(CompoundSet);
     db.connect();
@@ -42,7 +43,7 @@ export class CompoundsService {
       }, []);
   }
 
-  create(name, dataset) {
+  countAndSave(name, dataset) {
     const compoundSet = new CompoundSet({
       name,
     });
@@ -52,6 +53,14 @@ export class CompoundsService {
         return Observable.fromPromise(compoundSet.save());
       })
       .toPromise();
+  }
+
+  create(name, dataset) {
+    this.queueService.addJob('countCompoundsSet', (job, done) => {
+      this.countAndSave(name, dataset).then(done).catch(done);
+    });
+    return new Promise(resolve =>
+      resolve('Your compounds set has been added to the queue and will be processed shortly.'));
   }
 
   get(id) {

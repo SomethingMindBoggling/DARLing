@@ -1,7 +1,8 @@
 import { CompoundsService } from './services/compounds.service';
 import { PubChemService } from './services/pubchem.service';
+import { QueueService } from './services/queue.service';
 
-const compoundService = new CompoundsService(new PubChemService());
+const compoundService = new CompoundsService(new PubChemService(), new QueueService());
 
 // Grab env variables
 require('dotenv').config();

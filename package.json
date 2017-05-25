@@ -23,6 +23,7 @@
     "extends": "airbnb/base"
   },
   "dependencies": {
+    "agenda": "^0.9.1",
     "babel-runtime": "^6.6.1",
     "body-parser": "^1.17.2",
     "chai-as-promised": "^6.0.0",
