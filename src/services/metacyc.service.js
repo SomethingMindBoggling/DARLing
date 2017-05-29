@@ -19,7 +19,7 @@ export class MetaCycService {
         { headers: { 'Content-Type': 'application/json; charset=UTF-8' }, compress: false }))
       .mergeMap(res => res.json())
       .map(json => json[0].RESULTS.map(singleResult => singleResult.ID))
-      .catch(() => Observable.from([])) // Assume no results if error
+      .catch(() => Observable.of([])) // Assume no results if error
       .reduce((acc, cur) => acc.concat(cur), []);
   }
 

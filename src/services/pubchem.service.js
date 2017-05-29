@@ -9,14 +9,15 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/reduce';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/of';
 
 export class PubChemService {
-  getCID(CAS) {
+  getCIDs(CAS) {
     const uri = `http://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${CAS}/cids/json?email=${email}`;
     return Observable.fromPromise(fetch(uri))
       .switchMap(res => res.json())
       .map(json => json.IdentifierList.CID)
-      .catch(() => Observable.from([])); // Assume there is no results if error
+      .catch(() => Observable.of([])); // Assume there is no results if error
   }
 
   getCount(collection) {

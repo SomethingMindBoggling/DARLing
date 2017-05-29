@@ -10,20 +10,20 @@ describe('PubChem Service', () => {
   const pubchemService = new PubChemService();
 
   it('Should return a list of only one CID', (done) => {
-    pubchemService.getCID('492-62-6').subscribe(CIDs => {
+    pubchemService.getCIDs('492-62-6').subscribe(CIDs => {
       CIDs.length.should.equal(1);
       CIDs[0].should.equal(79025);
     }, null, done);
   });
 
   it('Should return an empty list', (done) => {
-    pubchemService.getCID('1334-78-7').subscribe(CIDs => {
+    pubchemService.getCIDs('1334-78-7').subscribe(CIDs => {
       CIDs.length.should.equal(0);
-    }, null, done);
+    }, err => console.log(err), done);
   });
 
   it('Should return a list of at least three CIDs', (done) => {
-    pubchemService.getCID('79-68-5').subscribe(CIDs => {
+    pubchemService.getCIDs('79-68-5').subscribe(CIDs => {
       CIDs.length.should.be.above(2);
     }, null, done);
   });

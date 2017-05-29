@@ -13,6 +13,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/zip';
+import 'rxjs/add/operator/catch';
 
 export class CompoundsService {
   constructor(pubChemService, metaCycService, queueService) {
@@ -25,12 +26,10 @@ export class CompoundsService {
   }
 
   buildCompounds(dataset) {
-    const CASs = dataset.map(singleDataPoint => singleDataPoint.CAS);
-
-    return Observable.from(CASs)
+    return Observable.from(dataset)
       // PubChem
-      .mergeMap(singleCas => this.pubChemService.getCID(singleCas),
-        (singleCas, CIDs) => Object.assign({}, { CAS: singleCas, pubChem: { IDs: CIDs } }))
+      .mergeMap(singleDataset => this.pubChemService.getCIDs(singleDataset.CAS),
+        (singleDataset, CIDs) => Object.assign({}, singleDataset, { pubChem: { IDs: CIDs } }))
       .mergeMap(data => Observable.zip(
         this.pubChemService.getAssayCount(data.pubChem.IDs),
         this.pubChemService.getPathwayCount(data.pubChem.IDs),
