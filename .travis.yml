@@ -9,7 +9,7 @@ script:
 after_success:
 - npm run coveralls
 deploy:
-  provide: gae
+  provider: gae
   keyfile: "./app-engine-key.json"
   project: "dar-api"
   on: master
