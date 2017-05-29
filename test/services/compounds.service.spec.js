@@ -27,12 +27,14 @@ describe('Compounds Service', () => {
     compoundsService.buildCompounds(dataset).subscribe(completeDataset => {
       completeDataset.length.should.equal(1);
       completeDataset[0].should.have.ownProperty('CAS');
-      completeDataset[0].should.have.ownProperty('CIDs');
-      completeDataset[0].should.have.ownProperty('pubchemAssayCount');
-      completeDataset[0].should.have.ownProperty('pubchemPathwayCount');
-      completeDataset[0].should.have.ownProperty('bioCycIDs');
-      completeDataset[0].should.have.ownProperty('bioCycPathwayCount');
-      completeDataset[0].should.have.ownProperty('bioCycReactionCount');
+      completeDataset[0].should.have.ownProperty('pubChem');
+      completeDataset[0].pubChem.should.have.ownProperty('IDs');
+      completeDataset[0].pubChem.should.have.ownProperty('assayCount');
+      completeDataset[0].pubChem.should.have.ownProperty('pathwayCount');
+      completeDataset[0].should.have.ownProperty('metaCyc');
+      completeDataset[0].metaCyc.should.have.ownProperty('IDs');
+      completeDataset[0].metaCyc.should.have.ownProperty('reactionCount');
+      completeDataset[0].metaCyc.should.have.ownProperty('pathwayCount');
     }, null, () => done());
   });
 

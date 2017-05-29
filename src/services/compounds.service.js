@@ -12,6 +12,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/observable/zip';
 
 export class CompoundsService {
   constructor(pubChemService, metaCycService, queueService) {
@@ -27,39 +28,30 @@ export class CompoundsService {
     const CASs = dataset.map(singleDataPoint => singleDataPoint.CAS);
 
     return Observable.from(CASs)
+      // PubChem
       .mergeMap(singleCas => this.pubChemService.getCID(singleCas),
-        (singleCas, CIDs) => Object.assign({}, { CAS: singleCas, CIDs }))
-      .mergeMap(casAndCid => this.pubChemService.getAssayCount(casAndCid.CIDs),
-        (casAndCid, assayCount) => Object.assign({}, casAndCid, { pubchemAssayCount: assayCount })
-      )
-      .mergeMap(almostFull => this.pubChemService.getPathwayCount(almostFull.CIDs),
-        (almostFull, pathwayCount) => Object.assign(
-          {},
-          almostFull,
-          { pubchemPathwayCount: pathwayCount }
+        (singleCas, CIDs) => Object.assign({}, { CAS: singleCas, pubChem: { IDs: CIDs } }))
+      .mergeMap(data => Observable.zip(
+        this.pubChemService.getAssayCount(data.pubChem.IDs),
+        this.pubChemService.getPathwayCount(data.pubChem.IDs),
+        (assayCount, pathwayCount) => Object.assign({}, data,
+          { pubChem: Object.assign({}, data.pubChem, { assayCount, pathwayCount }) })
         )
       )
-      .mergeMap(almostFull => this.metaCycService.getBioCycIDFromCIDs(almostFull.CIDs),
-        (almostFull, bioCycIDs) => Object.assign(
+      // metaCyc
+      .mergeMap(data => this.metaCycService.getBioCycIDFromCIDs(data.pubChem.IDs),
+        (data, bioCycIDs) => Object.assign(
           {},
-          almostFull,
-          { bioCycIDs }
+          data,
+          { metaCyc: { IDs: bioCycIDs } }
+        ))
+      .mergeMap(data => Observable.zip(
+        this.metaCycService.getPathwayCount(data.metaCyc.IDs),
+        this.metaCycService.getReactionsCount(data.metaCyc.IDs),
+        (pathwayCount, reactionCount) => Object.assign({}, data,
+          { metaCyc: Object.assign({}, data.metaCyc, { reactionCount, pathwayCount }) }
         )
-      )
-      .mergeMap(almostFull => this.metaCycService.getPathwayCount(almostFull.bioCycIDs),
-        (almostFull, pathwayCount) => Object.assign(
-          {},
-          almostFull,
-          { bioCycPathwayCount: pathwayCount }
-        )
-      )
-      .mergeMap(almostFull => this.metaCycService.getReactionsCount(almostFull.bioCycIDs),
-        (almostFull, reactionCount) => Object.assign(
-          {},
-          almostFull,
-          { bioCycReactionCount: reactionCount }
-        )
-      )
+      ))
       .reduce((acc, cur) => {
         acc.push(cur);
         return acc;
