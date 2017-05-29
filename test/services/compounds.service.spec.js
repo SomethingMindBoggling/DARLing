@@ -6,8 +6,14 @@ chai.should();
 
 import { CompoundsService } from '../../src/services/compounds.service';
 import { PubChemService } from '../../src/services/pubchem.service';
+import { MetaCycService } from '../../src/services/metacyc.service';
+import { QueueService } from '../../src/services/queue.service';
 
-const compoundsService = new CompoundsService(new PubChemService());
+const compoundsService = new CompoundsService(
+  new PubChemService(),
+  new MetaCycService(),
+  new QueueService()
+);
 
 describe('Compounds Service', () => {
   it('should return an observable of a full dataset', (done) => {
@@ -24,6 +30,9 @@ describe('Compounds Service', () => {
       completeDataset[0].should.have.ownProperty('CIDs');
       completeDataset[0].should.have.ownProperty('pubchemAssayCount');
       completeDataset[0].should.have.ownProperty('pubchemPathwayCount');
+      completeDataset[0].should.have.ownProperty('bioCycIDs');
+      completeDataset[0].should.have.ownProperty('bioCycPathwayCount');
+      completeDataset[0].should.have.ownProperty('bioCycReactionCount');
     }, null, () => done());
   });
 
@@ -35,7 +44,9 @@ describe('Compounds Service', () => {
       },
     ];
 
-    compoundsService.create('test', 'jacob', dataset).should.eventually.be.undefined.notify(done);
+    compoundsService.create('test', 'jacob', dataset).should.eventually
+      .equal('Your compounds set has been added to the queue and will be processed shortly.')
+      .notify(done);
   });
 
   it('Should resolve with a single compound set. (BAD TEST. DUMMY MONGODB)', (done) => {
