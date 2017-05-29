@@ -89,7 +89,7 @@ export class CompoundsService {
           from: `"DAR Notifier" <notifer@${process.env.MAILGUN_DOMAIN}>`,
           to: email,
           subject: 'Compounds Processed!',
-          text: 'Congratulations, your compound list has preen processed and ranked'
+          text: 'Congratulations, your compound list has preen processed and ranked',
         });
         done();
       }).catch(err => done(err));
