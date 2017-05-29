@@ -15,6 +15,18 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/zip';
 import 'rxjs/add/operator/catch';
 
+const nodemailer = require('nodemailer');
+const mg = require('nodemailer-mailgun-transport');
+
+const auth = {
+  auth: {
+    api_key: process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN,
+  },
+};
+
+const nodemailerMailgun = nodemailer.createTransport(mg(auth));
+
 export class CompoundsService {
   constructor(pubChemService, metaCycService, queueService) {
     this.pubChemService = pubChemService;
@@ -69,9 +81,18 @@ export class CompoundsService {
       .toPromise();
   }
 
-  create(name, dataset) {
+  create(name, dataset, email) {
     this.queueService.addJob('countCompoundsSet', (job, done) => {
-      this.countAndSave(name, dataset).then(() => done()).catch(err => done(err));
+      this.countAndSave(name, dataset).then(() => {
+        // Notify creator via email
+        nodemailerMailgun.sendMail({
+          from: `"DAR Notifier" <notifer@${process.env.MAILGUN_DOMAIN}>`,
+          to: email,
+          subject: 'Compounds Processed!',
+          text: 'Congratulations, your compound list has preen processed and ranked'
+        });
+        done();
+      }).catch(err => done(err));
     });
     return new Promise(resolve =>
       resolve('Your compounds set has been added to the queue and will be processed shortly.'));

@@ -50,10 +50,10 @@ app.get('/compounds/:id', (req, res) => {
 
 app.post('/compounds', (req, res) => {
   // Create a new dataset
-  // Post data: {name, owner, dataset: [{CAS, IUPAC}]
+  // Post data: {name, dataset: [{CAS, IUPAC}, email]
   const dataset = JSON.parse(req.body.dataset);
 
-  compoundService.create(req.body.name, dataset)
+  compoundService.create(req.body.name, dataset, req.body.email)
     .then(msg => res.json({ message: msg }))
     .catch(err => res.send(err));
 });

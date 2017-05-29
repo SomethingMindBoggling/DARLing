@@ -33,6 +33,7 @@
     "jwks-rsa": "^1.1.1",
     "mongorito": "^3.0.1",
     "node-fetch": "^1.7.0",
+    "nodemailer": "^4.0.1",
     "oauth2orize": "^1.8.0",
     "passport": "^0.3.2",
     "passport-http-bearer": "^1.0.1",
