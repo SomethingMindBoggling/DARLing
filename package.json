@@ -77,6 +77,7 @@
     "prepublish": "npm run build",
     "publish:docs": "easystatic deploy docs --repo jacobwindsor/dar-tool-api",
     "start:docs": "easystatic start docs",
-    "start": "babel-node src/server.js --presets es2017"
+    "start": "babel-node src/server.js --presets es2017",
+    "encrypt:secrets": "tar cvf secrets.tar .env app-engine-key.json && travis encrypt-file secrets.tar --add"
   }
 }

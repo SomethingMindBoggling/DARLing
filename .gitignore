@@ -9,3 +9,4 @@ npm-debug.log
 .env
 .idea
 app-engine-key.json
+/secrets.tar
