@@ -10,6 +10,7 @@ after_success:
 - npm run coveralls
 deploy:
   provider: gae
+  skip_cleanup: true
   keyfile: "./app-engine-key.json"
   project: dar-api
   on: master
