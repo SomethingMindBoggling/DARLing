@@ -19,7 +19,7 @@ describe('PubChem Service', () => {
   it('Should return an empty list', (done) => {
     pubchemService.getCIDs('1334-78-7').subscribe(CIDs => {
       CIDs.length.should.equal(0);
-    }, err => console.log(err), done);
+    }, null, done);
   });
 
   it('Should return a list of at least three CIDs', (done) => {

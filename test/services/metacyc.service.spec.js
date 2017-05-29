@@ -49,10 +49,7 @@ describe('MetaCyc Service', () => {
     const bioCycIDs = ['jacob\'s-nonsense-id'];
     metaCycService.getPathwayCount(bioCycIDs).subscribe((val) => {
       val.should.equal(0);
-    }, err => {
-      console.log(err);
-      done();
-    }, done);
+    }, null, done);
   });
 
   it('Should return a count of the reactions', (done) => {
