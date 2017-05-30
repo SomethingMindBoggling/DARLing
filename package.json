@@ -63,9 +63,10 @@
     "istanbul": "^1.0.0-alpha.2",
     "mocha": "^2.4.5",
     "path": "^0.12.7",
+    "rimraf": "^2.6.1",
     "rollup": "^0.26.2",
     "rollup-plugin-babel": "^2.4.0",
-    "sinon": "^2.0.0-pre"
+    "sinon": "^2.3.2"
   },
   "scripts": {
     "lint": "eslint src test tools",
@@ -73,11 +74,12 @@
     "test:watch": "mocha --recursive --timeout 150000 --compilers js:babel-register --reporter min --watch",
     "test:cover": "babel-node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "build": "node tools/build",
+    "encrypt:secrets": "tar cvf secrets.tar .env app-engine-key.json && travis encrypt-file secrets.tar --add",
+    "build": "node tools/build.js",
     "prepublish": "npm run build",
     "publish:docs": "easystatic deploy docs --repo jacobwindsor/dar-tool-api",
     "start:docs": "easystatic start docs",
-    "start": "babel-node src/server.js --presets es2017",
-    "encrypt:secrets": "tar cvf secrets.tar .env app-engine-key.json && travis encrypt-file secrets.tar --add"
+    "start:dev": "babel-node src/server.js --presets es2017",
+    "start": "node dist/server.js"
   }
 }

@@ -21,9 +21,10 @@ let promise = Promise.resolve();
 promise = promise.then(() => del(['dist/*']));
 
 // Compile source code into a distributable format with Babel
-for (const format of ['es6', 'cjs', 'umd']) {
+// Only do common js
+for (const format of ['cjs']) {
   promise = promise.then(() => rollup.rollup({
-    entry: 'src/index.js',
+    entry: 'src/server.js',
     external: Object.keys(pkg.dependencies),
     plugins: [babel(Object.assign(pkg.babel, {
       babelrc: false,
@@ -32,22 +33,24 @@ for (const format of ['es6', 'cjs', 'umd']) {
       presets: pkg.babel.presets.map(x => (x === 'es2015' ? 'es2015-rollup' : x)),
     }))],
   }).then(bundle => bundle.write({
-    dest: `dist/${format === 'cjs' ? 'index' : `index.${format}`}.js`,
+    dest: `dist/${format === 'cjs' ? 'server' : `server.${format}`}.js`,
     format,
     sourceMap: true,
     moduleName: format === 'umd' ? pkg.name : undefined,
   })));
 }
 
-// Copy package.json and LICENSE.txt
+// Copy package.json, app.yaml, .env, app-engine-key.json, and LICENSE.txt
 promise = promise.then(() => {
-  delete pkg.private;
-  delete pkg.devDependencies;
-  delete pkg.scripts;
   delete pkg.eslintConfig;
   delete pkg.babel;
   fs.writeFileSync('dist/package.json', JSON.stringify(pkg, null, '  '), 'utf-8');
   fs.writeFileSync('dist/LICENSE.txt', fs.readFileSync('LICENSE.txt', 'utf-8'), 'utf-8');
+  fs.writeFileSync('dist/.env', fs.readFileSync('.env', 'utf-8'), 'utf-8');
+  fs.writeFileSync('dist/app-engine-key.json', fs.readFileSync('app-engine-key.json', 'utf-8')
+    , 'utf-8');
+  fs.writeFileSync('dist/app.yaml', fs.readFileSync('app.yaml', 'utf-8'), 'utf-8');
 });
+
 
 promise.catch(err => console.error(err.stack)); // eslint-disable-line no-console
