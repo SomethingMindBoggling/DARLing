@@ -16,11 +16,15 @@ const dbPass = process.env.DB_PASS;
 
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
 
+// CORS
+const cors = require('cors');
+app.use(cors());
+
+// JSON parser
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 
 // Agenda dashboard
 const Agenda = require('agenda');
