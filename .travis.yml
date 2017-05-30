@@ -9,6 +9,8 @@ script:
 - npm run build
 after_success:
 - npm run coveralls
+before_deploy:
+- cd dist
 deploy:
   provider: gae
   skip_cleanup: true
