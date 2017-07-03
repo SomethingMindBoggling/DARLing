@@ -2777,6 +2777,10 @@ mongodb@^2.2.10, mongodb@^2.2.9:
     mongodb-core "2.1.13"
     readable-stream "2.2.7"
 
+mongorito-timestamps@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/mongorito-timestamps/-/mongorito-timestamps-1.0.1.tgz#d9d6296818030bfad0f010ad7fbce977602aa07e"
+
 mongorito@^3.0.1:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/mongorito/-/mongorito-3.0.2.tgz#6e162c1fc72c9e9daaefc3f0695d3dab80f44450"

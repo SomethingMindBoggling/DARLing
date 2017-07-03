@@ -43,10 +43,10 @@ app.use('/agendash', agendash(agenda));
 app.get('/compounds', (req, res) => {
   // Return a list of all compound datasets in the database
   // [{id, name, owner},...]
-  let { skip, limit } = req.query;
+  let { skip, limit, order } = req.query;
   if (skip) skip = parseInt(skip, 10);
   if (limit) limit = parseInt(limit, 10);
-  return compoundService.getAll(skip, limit)
+  return compoundService.getAll(skip, limit, order)
     .then(compoundsList => res.json(compoundsList)).catch(err => res.send(err));
 });
 

@@ -17,6 +17,7 @@ import 'rxjs/add/operator/catch';
 
 const nodemailer = require('nodemailer');
 const mg = require('nodemailer-mailgun-transport');
+const timestamps = require('mongorito-timestamps');
 
 const auth = {
   auth: {
@@ -34,8 +35,9 @@ export class CompoundsService {
     this.metaCycService = metaCycService;
     this.wikipathwaysService = wikipathwaysService;
     const db = new Database(`mongodb://${dbUser}:${dbPass}@ds151651.mlab.com:51651/dar-tool`);
-    db.register(CompoundSet);
     db.connect();
+    db.use(timestamps());
+    db.register(CompoundSet);
   }
 
   buildCompounds(dataset) {
@@ -113,7 +115,11 @@ export class CompoundsService {
     return CompoundSet.findOne({ _id: new ObjectId(id) });
   }
 
-  getAll(skip = 0, limit = 10) {
-    return CompoundSet.limit(limit).skip(skip).find();
+  getAll(skip = 0, limit = 10, order = 'desc') {
+    return CompoundSet
+      .limit(limit)
+      .skip(skip)
+      .sort('created_at', order)
+      .find();
   }
 }
