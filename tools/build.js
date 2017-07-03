@@ -30,6 +30,7 @@ for (const format of ['cjs']) {
       babelrc: false,
       exclude: 'node_modules/**',
       runtimeHelpers: true,
+      externalHelpers: true,
     }))],
   }).then(bundle => bundle.write({
     dest: `dist/${format === 'cjs' ? 'server' : `server.${format}`}.js`,
@@ -44,6 +45,7 @@ promise = promise.then(() => {
   delete pkg.eslintConfig;
   delete pkg.babel;
   delete pkg.scripts.start;
+  delete pkg.scripts.prestart;
   pkg.scripts.start = 'node server.js';
   fs.writeFileSync('dist/package.json', JSON.stringify(pkg, null, '  '), 'utf-8');
   fs.writeFileSync('dist/LICENSE.txt', fs.readFileSync('LICENSE.txt', 'utf-8'), 'utf-8');

@@ -48,7 +48,7 @@
     "xml2js": "^0.4.17"
   },
   "devDependencies": {
-    "babel-cli": "^6.8.0",
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.8.0",
     "babel-eslint": "^6.0.4",
     "babel-plugin-external-helpers": "^6.22.0",
@@ -86,8 +86,7 @@
     "prepublish": "npm run build",
     "publish:docs": "easystatic deploy docs --repo jacobwindsor/dar-tool-api",
     "start:docs": "easystatic start docs",
-    "prestart:dev": "npm run build",
-    "start:dev": "node dist/server.js",
+    "prestart": "npm run build",
     "start": "node dist/server.js"
   }
 }
