@@ -16,12 +16,13 @@ export class WikiPathwaysService {
           Observable.fromPromise(fetch(`http://webservice.wikipathways.org/findPathwaysByXref?ids=${CID}&codes=Cpc&format=json`))
         )
         .mergeMap(res => res.json())
-        .map(json => {
-          return {
+        .map((json) => Object.assign(
+          {},
+          {
             pathwayCount: json.result.length,
             IDs: json.result.map(singleResult => singleResult.id),
-          };
-        })
+          })
+        )
         .reduce((acc, cur) =>
           Object.assign(
             {},
