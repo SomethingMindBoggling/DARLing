@@ -28,10 +28,11 @@ const auth = {
 const nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
 export class CompoundsService {
-  constructor(pubChemService, metaCycService, queueService) {
+  constructor(pubChemService, metaCycService, wikipathwaysService, queueService) {
     this.pubChemService = pubChemService;
     this.queueService = queueService;
     this.metaCycService = metaCycService;
+    this.wikipathwaysService = wikipathwaysService;
     const db = new Database(`mongodb://${dbUser}:${dbPass}@ds151651.mlab.com:51651/dar-tool`);
     db.register(CompoundSet);
     db.connect();
@@ -63,6 +64,16 @@ export class CompoundsService {
           { metaCyc: Object.assign({}, data.metaCyc, { reactionCount, pathwayCount }) }
         )
       ))
+      // WikiPathways
+      .mergeMap(data => this.wikipathwaysService.getPathwayCountAndIDs(data.pubChem.IDs),
+        (data, WikiPathways) => Object.assign(
+          {},
+          data,
+          {
+            wikiPathways: WikiPathways,
+          }
+        )
+      )
       .reduce((acc, cur) => {
         acc.push(cur);
         return acc;

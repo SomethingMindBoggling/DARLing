@@ -2,11 +2,13 @@ import { CompoundsService } from './services/compounds.service';
 import { PubChemService } from './services/pubchem.service';
 import { QueueService } from './services/queue.service';
 import { MetaCycService } from './services/metacyc.service';
+import { WikiPathwaysService } from './services/wikipathways.service';
 
 const compoundService = new CompoundsService(
   new PubChemService(),
   new MetaCycService(),
-  new QueueService()
+  new WikiPathwaysService(),
+  new QueueService(),
 );
 
 // Grab env variables
@@ -59,7 +61,7 @@ app.get('/compounds/:id', (req, res) => {
 app.post('/compounds', (req, res) => {
   // Create a new dataset
   // Post data: {name, dataset: [{CAS, IUPAC}, email]
-  const dataset = JSON.parse(req.body.dataset);
+  const dataset = req.body.dataset;
 
   compoundService.create(req.body.name, dataset, req.body.email)
     .then(msg => res.json({ message: msg }))
