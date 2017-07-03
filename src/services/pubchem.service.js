@@ -12,6 +12,11 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 
 export class PubChemService {
+  constructor() {
+    this.getPathwayCount = this.getCount('biosystem');
+    this.getAssayCount = this.getCount('bioactivity');
+  }
+
   getCIDs(CAS) {
     const uri = `http://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${CAS}/cids/json?email=${email}`;
     return Observable.fromPromise(fetch(uri))
@@ -30,8 +35,4 @@ export class PubChemService {
         .map(json => json.SDQOutputSet[0].totalCount)
         .reduce((acc, cur) => acc + cur, 0);
   }
-
-  getPathwayCount = this.getCount('biosystem');
-
-  getAssayCount = this.getCount('bioactivity');
 }

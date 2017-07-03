@@ -30,7 +30,6 @@ for (const format of ['cjs']) {
       babelrc: false,
       exclude: 'node_modules/**',
       runtimeHelpers: true,
-      presets: pkg.babel.presets.map(x => (x === 'es2015' ? 'es2015-rollup' : x)),
     }))],
   }).then(bundle => bundle.write({
     dest: `dist/${format === 'cjs' ? 'server' : `server.${format}`}.js`,
