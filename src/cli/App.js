@@ -30,6 +30,7 @@ export default class extends Component {
               </Link>
             </ToolbarGroup>
             <ToolbarGroup>
+              <FlatButton label="Help" />
               <ToolbarSeparator/>
               <RaisedButton label="Rank a dataset" primary={true} />
             </ToolbarGroup>
