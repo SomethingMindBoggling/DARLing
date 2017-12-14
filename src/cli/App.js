@@ -9,6 +9,13 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Datasets from './scenes/datasets';
+import { css } from 'react-emotion';
+
+const contentStyle = css`
+  width: 80%;
+  margin: 0 auto;
+  padding: 1rem .6rem;
+`;
 
 export default class extends Component {
   render() {
@@ -27,8 +34,9 @@ export default class extends Component {
               <RaisedButton label="Rank a dataset" primary={true} />
             </ToolbarGroup>
           </Toolbar>
-
-          <Route exact path="/" component={Datasets} />
+          <div className={contentStyle}>
+            <Route exact path="/" component={Datasets} />
+          </div>
         </MuiThemeProvider>
       </Router>
     );
