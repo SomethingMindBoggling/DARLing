@@ -87,7 +87,8 @@
     "prepublish": "npm run build",
     "publish:docs": "easystatic deploy docs --repo jacobwindsor/dar-tool-api",
     "start:docs": "easystatic start docs",
-    "prestart": "npm run build",
-    "start": "node dist/server.js"
+    "prestart:server": "npm run build",
+    "start:server": "node dist/server.js",
+    "start": "npm run start:server"
   }
 }

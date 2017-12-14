@@ -1,4 +1,4 @@
-import { MetaCycService } from '../../src/services/metacyc.service';
+import { MetaCycService } from '../../src/server/services/metacyc.service';
 
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');

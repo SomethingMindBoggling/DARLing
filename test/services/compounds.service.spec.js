@@ -4,10 +4,10 @@ const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 chai.should();
 
-import { CompoundsService } from '../../src/services/compounds.service';
-import { PubChemService } from '../../src/services/pubchem.service';
-import { MetaCycService } from '../../src/services/metacyc.service';
-import { QueueService } from '../../src/services/queue.service';
+import { CompoundsService } from '../../src/server/services/compounds.service';
+import { PubChemService } from '../../src/server/services/pubchem.service';
+import { MetaCycService } from '../../src/server/services/metacyc.service';
+import { QueueService } from '../../src/server/services/queue.service';
 
 const compoundsService = new CompoundsService(
   new PubChemService(),

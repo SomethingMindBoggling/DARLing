@@ -1,4 +1,4 @@
-import { PubChemService } from '../../src/services/pubchem.service';
+import { PubChemService } from '../../src/server/services/pubchem.service';
 
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');

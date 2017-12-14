@@ -24,7 +24,7 @@ promise = promise.then(() => del(['dist/*']));
 // Only do common js
 for (const format of ['cjs']) {
   promise = promise.then(() => rollup.rollup({
-    entry: 'src/server.js',
+    entry: 'src/server/server.js',
     external: Object.keys(pkg.dependencies),
     plugins: [babel(Object.assign(pkg.babel, {
       babelrc: false,
