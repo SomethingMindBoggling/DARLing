@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "dar-tool-api",
+  "name": "darling",
   "version": "0.0.0",
   "description": "API for the Data Availabity Ranker Tool",
   "repository": "jacobwindsor/dar-tool-api",
