@@ -4,6 +4,7 @@ import { css } from 'react-emotion';
 
 const wrapperStyle = css`
   width: 100%;
+  margin-bottom: .8rem;
 `;
 
 const textFieldStyle = css`
