@@ -1,5 +1,6 @@
 import { Card, CardActions, CardHeader, CardMedia, CardTitle } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import {Link} from "react-router-dom";
 
 export default props => (
   <Card>
@@ -12,7 +13,9 @@ export default props => (
     </CardMedia>
     <CardTitle title="Dataset title" subtitle="Dataset subtitle" />
     <CardActions>
-      <FlatButton label="View" />
+      <Link to="/dataset/1234">
+        <FlatButton label="View" />
+      </Link>
     </CardActions>
   </Card>
 );

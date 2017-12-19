@@ -14,13 +14,18 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react', 'emotion'],
+          presets: ['es2015', 'react'],
         },
+      },
+      {
+        test: /\.svg$/,
+        loader: 'file-loader',
       },
     ],
   },
   devServer: {
     contentBase: './dist/cli',
+    historyApiFallback: true,
   },
   stats: {
     colors: true,
